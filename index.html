@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POPCORN PRESS — 映画レビューマガジン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Shippori+Mincho:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4ECDD;
+    --paper-2:#EBE0CB;
+    --ink:#1A1714;
+    --ink-soft:#3D352C;
+    --red:#DC3545;
+    --red-deep:#A82531;
+    --yellow:#FFCD3C;
+    --cobalt:#2C3E8E;
+    --ember:#E85D2F;
+    --moss:#4A6B3D;
+    --rose:#E97DA0;
+    --line:rgba(26,23,20,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--paper);color:var(--ink);font-family:"DM Sans","Shippori Mincho",sans-serif;-webkit-font-smoothing:antialiased;}
+  body{
+    min-height:100vh;
+    background-image:
+      radial-gradient(rgba(26,23,20,.04) 1px, transparent 1px),
+      radial-gradient(rgba(26,23,20,.025) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 1px;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* ============ MASTHEAD ============ */
+  .masthead{
+    border-bottom:2px solid var(--ink);
+    padding:14px 24px 12px;
+    background:var(--paper);
+    position:sticky;top:0;z-index:50;
+  }
+  .masthead-top{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:"Anton",sans-serif;letter-spacing:.05em;
+    text-transform:uppercase;font-size:11px;color:var(--ink-soft);
+    border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px;
+  }
+  .masthead-top .meta-l, .masthead-top .meta-r{display:flex;gap:18px;}
+  .masthead-top .dot{width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block;margin-right:6px;vertical-align:1px;}
+  .masthead-title{
+    font-family:"Anton",sans-serif;
+    font-size:clamp(54px, 12vw, 156px);
+    line-height:.85;letter-spacing:-0.02em;
+    text-align:center;
+    color:var(--ink);
+    text-transform:uppercase;
+    margin:6px 0 4px;
+    font-stretch: ultra-condensed;
+  }
+  .masthead-title .amp{
+    color:var(--red);
+    font-family:"Fraunces",serif;
+    font-style:italic;font-weight:900;
+    padding:0 .04em;
+  }
+  .masthead-bottom{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    border-top:1px solid var(--line);padding-top:8px;
+    font-family:"Fraunces",serif;font-style:italic;
+    font-size:13px;color:var(--ink-soft);
+  }
+  .masthead-bottom .tagline{font-weight:400;}
+  .masthead-bottom .issue{font-family:"Anton",sans-serif;font-style:normal;letter-spacing:.08em;font-size:11px;color:var(--ink);}
+
+  /* ============ FILTER BAR ============ */
+  .filter-bar{
+    display:flex;flex-direction:column;gap:10px;
+    padding:18px 24px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+  }
+  .filter-row{
+    display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center;
+  }
+  .filter-row .label{
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);
+    margin-right:4px;
+  }
+  .filter-btn{
+    font-family:"Anton",sans-serif;font-size:13px;letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:8px 16px 7px;border:1.5px solid var(--ink);
+    background:var(--paper);color:var(--ink);
+    border-radius:999px;cursor:pointer;
+    transition: all .18s ease;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .filter-btn .count{
+    font-family:"DM Sans",sans-serif;font-size:10px;font-weight:700;
+    background:var(--ink);color:var(--paper);
+    padding:2px 6px;border-radius:999px;letter-spacing:0;
+  }
+  .filter-btn:hover{transform:translateY(-1px);box-shadow:3px 3px 0 var(--ink);}
+  .filter-btn.is-active{background:var(--ink);color:var(--paper);}
+  .filter-btn.is-active .count{background:var(--yellow);color:var(--ink);}
+  .filter-btn[data-band="90"]:not(.is-active):hover{background:var(--red);color:var(--paper);border-color:var(--red);}
+  .filter-btn[data-band="80"]:not(.is-active):hover{background:var(--yellow);}
+  .filter-btn[data-band="70"]:not(.is-active):hover{background:var(--cobalt);color:var(--paper);border-color:var(--cobalt);}
+
+  .genre-btn{
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:6px 12px 5px;border:1.5px solid var(--ink);
+    background:var(--paper);color:var(--ink);
+    border-radius:999px;cursor:pointer;
+    transition: all .18s ease;
+  }
+  .genre-btn:hover{transform:translateY(-1px);box-shadow:2px 2px 0 var(--ink);}
+  .genre-btn.is-active{background:var(--cobalt);color:var(--paper);border-color:var(--cobalt);}
+
+  /* ============ ISSUE SELECTOR ============ */
+  .masthead-top .meta-r{position:relative;}
+  .issue-selector{
+    background:none;border:none;padding:0;cursor:pointer;
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--ink-soft);
+    display:inline-flex;align-items:center;gap:5px;
+    transition:color .15s ease;
+  }
+  .issue-selector:hover{color:var(--ink);}
+  .issue-selector .chevron{font-size:9px;margin-top:1px;transition:transform .2s ease;}
+  .issue-selector.is-open .chevron{transform:rotate(180deg);}
+  .issue-dropdown{
+    position:absolute;right:0;top:calc(100% + 6px);
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    z-index:100;min-width:220px;
+  }
+  .issue-dropdown[hidden]{display:none;}
+  .issue-dropdown button{
+    display:block;width:100%;text-align:left;
+    background:none;border:none;
+    border-bottom:1px solid var(--line);
+    padding:11px 16px 9px;
+    font-family:"Anton",sans-serif;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink);cursor:pointer;
+    transition:background .15s ease;
+  }
+  .issue-dropdown button:last-child{border-bottom:none;}
+  .issue-dropdown button:hover{background:var(--yellow);}
+  .issue-dropdown button.is-active{background:var(--ink);color:var(--paper);}
+  .issue-dropdown .issue-divider{
+    border-bottom:2px solid var(--ink);
+  }
+
+  /* ============ GRID ============ */
+  .grid-section{padding:28px 24px 80px;}
+  .grid-section-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:24px;
+  }
+  .grid-section-head h2{
+    font-family:"Fraunces",serif;font-weight:900;font-size:22px;
+    letter-spacing:-.01em;
+  }
+  .grid-section-head h2 em{font-style:italic;color:var(--red);}
+  .grid-section-head .count-text{font-family:"Anton",sans-serif;font-size:12px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;}
+
+  .poster-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
+    gap:32px 14px;
+  }
+  @media (min-width:768px){
+    .poster-grid{grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:40px 18px;}
+  }
+
+  .poster-card{
+    cursor:pointer;
+    display:flex;flex-direction:column;gap:6px;
+    opacity:0;transform:translateY(8px);
+    animation:rise .5s ease forwards;
+  }
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+  .poster{
+    aspect-ratio: 2/3;
+    position:relative;overflow:hidden;
+    border:1.5px solid var(--ink);
+    transition: transform .25s ease, box-shadow .25s ease;
+    display:flex;flex-direction:column;
+  }
+  .poster-card:hover .poster{transform:translateY(-4px);box-shadow:6px 6px 0 var(--ink);}
+  .poster-card:hover .score-badge{transform:scale(1.08);}
+
+  .score-badge{
+    position:absolute;top:8px;right:8px;z-index:3;
+    background:var(--paper);color:var(--ink);
+    border:1.5px solid var(--ink);
+    width:50px;height:50px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Fraunces",serif;font-weight:900;font-size:22px;
+    letter-spacing:-.02em;line-height:1;
+    transition: transform .25s ease;
+  }
+  .score-badge.gold{background:var(--yellow);}
+  .score-badge.red{background:var(--red);color:var(--paper);}
+
+  .poster-meta{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:"Anton",sans-serif;font-size:10px;letter-spacing:.08em;
+    color:var(--ink-soft);text-transform:uppercase;
+    padding:0 2px;
+  }
+  .poster-meta .reading{color:var(--ink);}
+
+  /* ============ POSTER DESIGNS ============ */
+  /* 1. 千と千尋 */
+  .p-spirit{background:#B8202B;color:#fff;align-items:center;justify-content:center;}
+  .p-spirit .big-kanji{font-family:"Shippori Mincho",serif;font-weight:800;font-size:90px;color:#fff;line-height:1;}
+  .p-spirit .sub{font-family:"Shippori Mincho",serif;font-size:9px;letter-spacing:.3em;margin-top:14px;writing-mode:vertical-rl;position:absolute;bottom:18px;right:14px;}
+  .p-spirit .ttl{position:absolute;bottom:14px;left:14px;font-family:"Shippori Mincho",serif;font-size:10px;letter-spacing:.05em;}
+
+  /* 2. PERFECT DAYS */
+  .p-perfect{background:#3F5A39;color:#F4ECDD;justify-content:space-between;padding:18px 14px;}
+  .p-perfect .sun{width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%, #F2C84B 0%, #E69E2C 70%);align-self:center;margin-top:18px;box-shadow:inset -10px -10px 30px rgba(0,0,0,.15);}
+  .p-perfect .ttl{font-family:"Bebas Neue",sans-serif;font-size:24px;letter-spacing:.05em;line-height:.95;text-align:center;}
+  .p-perfect .ttl small{display:block;font-size:9px;letter-spacing:.3em;margin-top:6px;opacity:.85;}
+
+  /* 3. ドライブ・マイ・カー */
+  .p-drive-car{background:#F4ECDD;color:#1A1714;justify-content:space-between;padding:24px 16px;position:relative;}
+  .p-drive-car::before,.p-drive-car::after{content:"";position:absolute;left:0;right:0;height:4px;background:#B8202B;}
+  .p-drive-car::before{top:38%;}
+  .p-drive-car::after{bottom:38%;}
+  .p-drive-car .car{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:14px;background:#B8202B;border-radius:3px;}
+  .p-drive-car .ttl{font-family:"Shippori Mincho",serif;font-weight:700;font-size:13px;line-height:1.2;}
+  .p-drive-car .ttl small{display:block;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.2em;margin-top:4px;color:#3D352C;}
+  .p-drive-car .yr{font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.1em;text-align:right;}
+
+  /* 4. 2001年宇宙の旅 */
+  .p-2001{background:#0A0A0A;color:#fff;justify-content:center;align-items:center;position:relative;}
+  .p-2001 .eye{width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #FF3B30 0%, #8B0000 100%);box-shadow:0 0 40px rgba(255,59,48,.4);}
+  .p-2001 .ttl{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-family:"Fraunces",serif;font-weight:900;font-size:22px;letter-spacing:.04em;}
+
+  /* 5. 花様年華 */
+  .p-mood{background:#5A1A1A;color:#E8B963;justify-content:flex-start;padding:24px 18px;position:relative;}
+  .p-mood .kanji{font-family:"Shippori Mincho",serif;font-weight:800;font-size:42px;line-height:1.05;letter-spacing:.05em;}
+  .p-mood .line-deco{position:absolute;right:16px;top:24px;bottom:24px;width:1px;background:#E8B963;opacity:.5;}
+  .p-mood .yr{position:absolute;bottom:14px;left:18px;font-family:"Fraunces",serif;font-style:italic;font-size:11px;}
+  .p-mood .en{position:absolute;bottom:14px;right:24px;font-family:"Fraunces",serif;font-style:italic;font-size:9px;letter-spacing:.15em;}
+
+  /* 6. グランド・ブダペスト・ホテル */
+  .p-budapest{background:#F2B8C6;color:#3D2630;justify-content:flex-end;padding:14px;position:relative;overflow:hidden;}
+  .p-budapest .hotel{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:64%;display:flex;justify-content:center;gap:3px;align-items:flex-end;}
+  .p-budapest .hotel span{background:#3D2630;width:12%;}
+  .p-budapest .hotel span:nth-child(1){height:30px;}
+  .p-budapest .hotel span:nth-child(2){height:42px;}
+  .p-budapest .hotel span:nth-child(3){height:54px;}
+  .p-budapest .hotel span:nth-child(4){height:62px;background:#F2B8C6;border:1.5px solid #3D2630;border-bottom:none;}
+  .p-budapest .hotel span:nth-child(5){height:54px;}
+  .p-budapest .hotel span:nth-child(6){height:42px;}
+  .p-budapest .hotel span:nth-child(7){height:30px;}
+  .p-budapest .ttl{font-family:"Fraunces",serif;font-weight:900;font-style:italic;font-size:13px;line-height:1.05;text-align:center;}
+  .p-budapest .ttl small{display:block;font-family:"DM Sans",sans-serif;font-style:normal;font-size:8px;letter-spacing:.2em;margin-top:3px;font-weight:500;}
+
+  /* 7. パラサイト */
+  .p-parasite{background:#E8C547;color:#0A0A0A;position:relative;justify-content:center;align-items:center;}
+  .p-parasite .bar-top,.p-parasite .bar-bot{position:absolute;left:0;right:0;height:14%;background:#0A0A0A;}
+  .p-parasite .bar-top{top:30%;}
+  .p-parasite .bar-bot{top:56%;}
+  .p-parasite .ttl{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:"Anton",sans-serif;font-size:18px;letter-spacing:.06em;}
+  .p-parasite .yr{position:absolute;top:10px;left:12px;font-family:"Anton",sans-serif;font-size:10px;letter-spacing:.1em;}
+
+  /* 8. マッドマックス */
+  .p-mad{background:linear-gradient(180deg,#F2A03D 0%,#D2461F 60%,#7A1F12 100%);color:#0A0A0A;justify-content:flex-end;padding:14px;position:relative;}
+  .p-mad .v{position:absolute;left:50%;top:55%;transform:translateX(-50%);width:0;height:0;border-left:30px solid transparent;border-right:30px solid transparent;border-bottom:40px solid #0A0A0A;}
+  .p-mad .ttl{font-family:"Anton",sans-serif;font-size:16px;letter-spacing:.04em;line-height:.95;text-align:center;color:#0A0A0A;}
+  .p-mad .ttl small{display:block;font-size:8px;letter-spacing:.18em;margin-top:4px;}
+
+  /* 9. セッション */
+  .p-whip{background:#0A0A0A;color:#E85D2F;justify-content:center;align-items:center;padding:14px;}
+  .p-whip .vert{font-family:"Anton",sans-serif;font-size:36px;letter-spacing:.05em;writing-mode:vertical-rl;text-orientation:upright;line-height:.95;}
+  .p-whip .stick{position:absolute;top:18px;right:14px;width:2px;height:40px;background:#E85D2F;transform:rotate(20deg);transform-origin:top;}
+  .p-whip .ttl{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:"Shippori Mincho",serif;font-size:11px;color:#F4ECDD;}
+
+  /* 10. ラ・ラ・ランド */
+  .p-lala{background:linear-gradient(180deg,#3B2D6B 0%,#1F1742 100%);color:#FFE066;justify-content:flex-end;padding:14px;position:relative;}
+  .p-lala .star{position:absolute;font-family:"Fraunces",serif;color:#FFE066;}
+  .p-lala .s1{top:18%;left:20%;font-size:14px;}
+  .p-lala .s2{top:30%;right:18%;font-size:10px;}
+  .p-lala .s3{top:48%;left:30%;font-size:8px;}
+  .p-lala .s4{top:42%;right:28%;font-size:12px;}
+  .p-lala .ttl{font-family:"Fraunces",serif;font-weight:900;font-style:italic;font-size:18px;line-height:.95;text-align:center;letter-spacing:-.01em;}
+  .p-lala .ttl small{display:block;font-size:9px;letter-spacing:.2em;margin-top:4px;font-style:normal;font-weight:400;}
+
+  /* 11. ブレードランナー 2049 */
+  .p-blade{background:linear-gradient(180deg,#F0721C 0%,#9A3411 100%);color:#0A0A0A;justify-content:flex-end;padding:14px;position:relative;}
+  .p-blade .silhouette{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);width:14px;height:50px;background:#0A0A0A;border-radius:7px 7px 0 0;}
+  .p-blade .silhouette::after{content:"";position:absolute;top:-6px;left:3px;width:8px;height:8px;background:#0A0A0A;border-radius:50%;}
+  .p-blade .yr{font-family:"Anton",sans-serif;font-size:32px;letter-spacing:.02em;text-align:center;color:#0A0A0A;}
+  .p-blade .ttl{text-align:center;font-family:"Anton",sans-serif;font-size:10px;letter-spacing:.16em;color:#0A0A0A;margin-top:2px;}
+
+  /* 12. ドライヴ */
+  .p-drv{background:#FF1E8E;color:#0A0A0A;justify-content:flex-end;padding:14px;position:relative;}
+  .p-drv .scorpion{position:absolute;top:24%;left:50%;transform:translateX(-50%);font-size:48px;line-height:1;}
+  .p-drv .ttl{font-family:"Anton",sans-serif;font-size:42px;letter-spacing:.04em;text-align:center;line-height:.9;color:#0A0A0A;}
+  .p-drv .ttl small{display:block;font-size:9px;letter-spacing:.2em;margin-top:4px;}
+
+  /* 13. her */
+  .p-her{background:#F08672;color:#5A1A1A;justify-content:center;align-items:center;padding:14px;}
+  .p-her .ttl{font-family:"Fraunces",serif;font-weight:300;font-style:italic;font-size:62px;line-height:1;letter-spacing:-.02em;color:#fff;}
+  .p-her .sub{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.3em;color:#5A1A1A;text-transform:uppercase;}
+
+  /* 14. THE BATMAN */
+  .p-bat{background:#1C1C1F;color:#B22020;justify-content:center;align-items:center;padding:14px;position:relative;}
+  .p-bat .symbol{width:54px;height:30px;background:#B22020;clip-path: polygon(0 50%, 20% 0, 30% 50%, 50% 30%, 70% 50%, 80% 0, 100% 50%, 90% 100%, 50% 70%, 10% 100%);}
+  .p-bat .ttl{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:"Anton",sans-serif;font-size:18px;letter-spacing:.08em;color:#B22020;}
+
+  /* 15. 燃ゆる女の肖像 */
+  .p-portrait{background:#1F3B40;color:#F4ECDD;justify-content:flex-end;padding:14px;position:relative;}
+  .p-portrait .flame{position:absolute;top:30%;left:50%;transform:translateX(-50%);width:30px;height:50px;background:linear-gradient(180deg,#F2A03D 0%,#D2461F 50%,#7A1F12 100%);border-radius:50% 50% 50% 50% / 80% 80% 20% 20%;filter:blur(.5px);}
+  .p-portrait .ttl{font-family:"Shippori Mincho",serif;font-weight:700;font-size:14px;text-align:center;line-height:1.2;}
+  .p-portrait .ttl small{display:block;font-family:"Fraunces",serif;font-style:italic;font-size:9px;letter-spacing:.1em;margin-top:4px;font-weight:300;}
+
+  /* 16. ジョーカー */
+  .p-joker{background:#7A8A2C;color:#3D2630;justify-content:flex-end;padding:14px;position:relative;}
+  .p-joker .smile{position:absolute;top:30%;left:50%;transform:translateX(-50%);width:60px;height:30px;border-bottom:4px solid #B22020;border-radius:0 0 50% 50%;}
+  .p-joker .ttl{font-family:"Anton",sans-serif;font-size:36px;letter-spacing:.05em;text-align:center;color:#3D2630;}
+  .p-joker .ttl small{display:block;font-size:8px;letter-spacing:.25em;margin-top:4px;}
+
+  /* ============ DETAIL VIEW ============ */
+  .detail-view{
+    display:none;
+    background:var(--paper);
+    position:relative;
+    z-index:1;
+  }
+  .detail-view.is-active{display:block;}
+  .grid-view.is-hidden{display:none;}
+
+  .detail-back{
+    display:inline-flex;align-items:center;gap:8px;
+    margin:20px 24px 0;
+    font-family:"Anton",sans-serif;font-size:12px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink);cursor:pointer;
+    background:none;border:none;
+  }
+  .detail-back:hover{color:var(--red);}
+
+  .detail-hero{
+    padding:24px 24px 0;
+  }
+  .detail-issue-strip{
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:2px solid var(--ink);border-bottom:1px solid var(--line);
+    padding:8px 0;margin-top:16px;
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  .detail-issue-strip .cat{color:var(--red);}
+
+  .detail-grid{
+    display:grid;grid-template-columns:1fr;gap:24px;
+    padding:24px 24px 60px;
+  }
+  @media(min-width:768px){
+    .detail-grid{grid-template-columns:280px 1fr;gap:48px;padding:36px 48px 80px;}
+  }
+  @media(min-width:1024px){
+    .detail-grid{grid-template-columns:340px 1fr;gap:64px;}
+  }
+
+  .detail-poster-wrap{align-self:start;}
+  @media(min-width:768px){
+    .detail-poster-wrap{
+      position:sticky;top:120px;
+      background:var(--paper);
+      padding:12px 0;
+    }
+  }
+  .detail-poster{
+    border:1.5px solid var(--ink);
+    box-shadow:8px 8px 0 var(--ink);
+    max-width:280px;margin:0 auto;
+  }
+  @media(min-width:768px){.detail-poster{max-width:none;}}
+
+  .detail-poster-info{
+    margin-top:18px;text-align:center;
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.1em;
+    color:var(--ink-soft);text-transform:uppercase;
+    border-top:1px solid var(--line);padding-top:10px;
+  }
+
+  .detail-content h1.detail-title{
+    font-family:"Shippori Mincho",serif;font-weight:800;
+    font-size:clamp(32px, 6vw, 54px);line-height:1.05;
+    letter-spacing:-.01em;margin-bottom:8px;
+  }
+  .detail-orig{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:400;
+    font-size:18px;color:var(--ink-soft);margin-bottom:24px;
+  }
+
+  .detail-meta-row{
+    display:flex;flex-wrap:wrap;gap:8px 12px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:12px 0;margin-bottom:32px;
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.08em;
+    color:var(--ink-soft);text-transform:uppercase;
+  }
+  .detail-meta-row span{display:inline-flex;align-items:center;gap:6px;}
+  .detail-meta-row span::after{content:"·";margin-left:12px;color:var(--line);}
+  .detail-meta-row span:last-child::after{display:none;}
+
+  /* The big score block */
+  .detail-score-block{
+    display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+    background:var(--ink);color:var(--paper);
+    padding:24px;margin-bottom:36px;
+    position:relative;overflow:hidden;
+  }
+  .detail-score-block::before{
+    content:"SCORE";position:absolute;top:8px;right:12px;
+    font-family:"Anton",sans-serif;font-size:10px;letter-spacing:.2em;
+    color:var(--yellow);
+  }
+  .detail-score-num{
+    font-family:"Fraunces",serif;font-weight:900;
+    font-size:96px;line-height:.85;letter-spacing:-.04em;
+    color:var(--yellow);
+  }
+  .detail-score-num small{
+    font-family:"Anton",sans-serif;font-size:14px;letter-spacing:.1em;
+    color:var(--paper);opacity:.6;display:block;margin-top:4px;
+  }
+  .detail-score-verdict{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:600;
+    font-size:20px;line-height:1.3;color:var(--paper);
+  }
+  .detail-score-verdict small{
+    display:block;margin-top:8px;font-style:normal;font-weight:400;
+    font-size:13px;color:var(--yellow);font-family:"Anton",sans-serif;
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+
+  .detail-lead{
+    font-family:"Fraunces",serif;font-weight:400;font-style:italic;
+    font-size:22px;line-height:1.5;letter-spacing:-.005em;
+    margin-bottom:32px;color:var(--ink);
+    border-left:3px solid var(--red);padding-left:18px;
+  }
+  .detail-lead::first-letter{
+    font-family:"Fraunces",serif;font-weight:900;font-style:normal;
+    font-size:62px;float:left;line-height:.85;
+    margin:8px 8px 0 -2px;color:var(--red);
+  }
+
+  .detail-body p{
+    font-family:"Shippori Mincho",serif;font-weight:500;
+    font-size:15px;line-height:1.85;
+    margin-bottom:1.1em;color:var(--ink);
+  }
+
+  /* ============ MOBILE STICKY MINI BAR ============ */
+  .detail-mini-bar{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 14px;
+    background:var(--paper);
+    border-bottom:1.5px solid var(--ink);
+    position:sticky;top:0;z-index:40;
+    box-shadow:0 2px 0 rgba(26,23,20,.04);
+  }
+  .mini-back{
+    flex-shrink:0;
+    width:32px;height:32px;
+    border:1.5px solid var(--ink);background:var(--paper);
+    border-radius:50%;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Anton",sans-serif;font-size:14px;color:var(--ink);
+    padding:0;
+  }
+  .mini-back:hover{background:var(--ink);color:var(--paper);}
+  .mini-poster{
+    flex-shrink:0;
+    width:54px;height:81px;
+    position:relative;overflow:hidden;
+    border:1px solid var(--ink);
+  }
+  .mini-poster .poster{
+    width:180px;height:270px;
+    transform:scale(.30);transform-origin:0 0;
+    border:none;position:absolute;top:0;left:0;
+  }
+  .mini-poster .poster .score-badge{display:none;}
+  .mini-info{flex:1;min-width:0;overflow:hidden;}
+  .mini-info .mini-title{
+    font-family:"Shippori Mincho",serif;font-weight:700;
+    font-size:14px;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .mini-info .mini-meta{
+    font-family:"Anton",sans-serif;font-size:10px;letter-spacing:.08em;
+    color:var(--ink-soft);text-transform:uppercase;margin-top:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .mini-score{
+    flex-shrink:0;
+    background:var(--ink);color:var(--yellow);
+    padding:7px 11px 6px;
+    font-family:"Fraunces",serif;font-weight:900;
+    font-size:22px;letter-spacing:-.02em;line-height:1;
+  }
+
+  /* Mobile-only layout adjustments for detail view */
+  @media (max-width: 767px){
+    body.is-detail .masthead{display:none;}
+    body.is-detail .detail-back{display:none;}
+    body.is-detail .detail-hero{display:none;}
+    body.is-detail .detail-poster-wrap{display:none;}
+    body.is-detail .detail-title{font-size:24px;margin-bottom:4px;}
+    body.is-detail .detail-orig{font-size:14px;margin-bottom:14px;}
+    body.is-detail .detail-grid{padding:18px 18px 60px;}
+    body.is-detail .detail-score-block{padding:18px;margin-bottom:24px;gap:18px;}
+    body.is-detail .detail-score-num{font-size:72px;}
+    body.is-detail .detail-score-verdict{font-size:16px;}
+    body.is-detail .detail-lead{font-size:17px;margin-bottom:22px;padding-left:14px;}
+    body.is-detail .detail-lead::first-letter{font-size:46px;}
+    body.is-detail .detail-body p{font-size:14.5px;line-height:1.8;}
+    body.is-detail .pull-quote{font-size:20px;padding:18px 0;margin:24px 0;}
+  }
+  /* Desktop hides mini bar */
+  @media (min-width: 768px){
+    .detail-mini-bar{display:none;}
+  }
+
+  .pull-quote{
+    font-family:"Fraunces",serif;font-weight:900;font-style:italic;
+    font-size:clamp(24px, 4vw, 32px);line-height:1.2;letter-spacing:-.015em;
+    color:var(--red);
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+    padding:24px 0;margin:32px 0;text-align:center;
+    position:relative;
+  }
+  .pull-quote::before, .pull-quote::after{
+    content:"";display:inline-block;width:24px;height:1px;background:var(--red);
+    vertical-align:middle;margin:0 12px;
+  }
+
+  .detail-tags{
+    display:flex;flex-wrap:wrap;gap:8px;
+    margin-top:32px;border-top:1px solid var(--line);padding-top:20px;
+  }
+  .tag{
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:5px 12px 4px;border:1px solid var(--ink);
+    background:var(--paper);color:var(--ink);
+  }
+  .tag.accent{background:var(--yellow);}
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:2px solid var(--ink);
+    padding:24px;text-align:center;
+    background:var(--ink);color:var(--paper);
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  footer .red{color:var(--red);}
+  footer .small{
+    display:block;margin-top:8px;font-family:"Fraunces",serif;
+    font-style:italic;font-size:13px;letter-spacing:0;
+    text-transform:none;font-weight:300;color:#9D958B;
+  }
+
+  /* Empty state */
+  .empty-state{
+    text-align:center;padding:80px 24px;
+    font-family:"Fraunces",serif;font-style:italic;font-size:18px;
+    color:var(--ink-soft);
+  }
+
+  /* ============ STREAMING SERVICES ============ */
+  /* Brand color tokens */
+  .svc-netflix{--svc:#E50914;--svc-fg:#fff;}
+  .svc-hulu{--svc:#1CE783;--svc-fg:#000;}
+  .svc-amazon{--svc:#00A8E1;--svc-fg:#fff;}
+  .svc-unext{--svc:#000;--svc-fg:#FFD60A;}
+  .svc-disney{--svc:#113CCF;--svc-fg:#fff;}
+  .svc-apple{--svc:#000;--svc-fg:#fff;}
+
+  /* Grid card chips (compact) */
+  .stream-chips{
+    display:flex;gap:5px;flex-wrap:wrap;
+    margin-top:0;padding:0 2px;align-items:center;
+  }
+  .stream-chips .chip-label{
+    font-family:"Anton",sans-serif;font-size:9px;letter-spacing:.1em;
+    color:var(--ink-soft);text-transform:uppercase;margin-right:2px;
+  }
+  .stream-chip{
+    width:22px;height:22px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:"Anton",sans-serif;font-size:11px;
+    background:var(--svc);color:var(--svc-fg);
+    border:1px solid var(--ink);
+    text-decoration:none;cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .stream-chip:hover{transform:translateY(-2px);box-shadow:2px 2px 0 var(--ink);}
+
+  /* Detail page streaming section */
+  .stream-section{
+    margin:0 0 32px;
+    border-top:2px solid var(--ink);
+    border-bottom:1px solid var(--line);
+    padding:18px 0 20px;
+  }
+  .stream-section .stream-label{
+    font-family:"Anton",sans-serif;font-size:11px;letter-spacing:.14em;
+    color:var(--ink);text-transform:uppercase;margin-bottom:12px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .stream-section .stream-label::after{
+    content:"";flex:1;height:1px;background:var(--line);
+  }
+  .stream-section .stream-label .play{
+    color:var(--red);font-size:14px;
+  }
+  .stream-buttons{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .stream-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 14px 8px;
+    background:var(--svc);color:var(--svc-fg);
+    border:1.5px solid var(--ink);
+    font-family:"Anton",sans-serif;font-size:12px;letter-spacing:.06em;
+    text-transform:uppercase;text-decoration:none;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .stream-btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--ink);}
+  .stream-btn .arrow{font-size:10px;opacity:.7;margin-left:2px;}
+  .stream-section .stream-note{
+    font-family:"Fraunces",serif;font-style:italic;font-size:11px;
+    color:var(--ink-soft);margin-top:10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== MASTHEAD =================== -->
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="meta-l">
+      <span><span class="dot"></span>Cinema · Reviews · Personal Log</span>
+    </div>
+    <div class="meta-r">
+      <button class="issue-selector" id="issueSelector" aria-haspopup="true">
+        <span id="currentIssueLabel">ALL ISSUES</span>
+        <span class="chevron">▾</span>
+      </button>
+      <div class="issue-dropdown" id="issueDropdown" hidden></div>
+    </div>
+  </div>
+  <h1 class="masthead-title">Popcorn<span class="amp">&amp;</span>Press</h1>
+  <div class="masthead-bottom">
+    <div class="tagline">— a magazine of films, scored honestly.</div>
+    <div class="issue">100 / 100 SCORING SYSTEM</div>
+  </div>
+</header>
+
+<!-- =================== GRID VIEW =================== -->
+<section class="grid-view" id="gridView">
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-row">
+      <span class="label">Score ▸</span>
+      <button class="filter-btn is-active" data-band="all">すべて <span class="count" id="cnt-all">0</span></button>
+      <button class="filter-btn" data-band="90">90点以上 <span class="count" id="cnt-90">0</span></button>
+      <button class="filter-btn" data-band="80">80–89点 <span class="count" id="cnt-80">0</span></button>
+      <button class="filter-btn" data-band="70">70–79点 <span class="count" id="cnt-70">0</span></button>
+    </div>
+    <div class="filter-row" id="genreRow">
+      <span class="label">Genre ▸</span>
+      <!-- genre buttons injected by JS -->
+    </div>
+  </div>
+
+  <div class="grid-section">
+    <div class="grid-section-head">
+      <h2>Latest <em>Reviews</em></h2>
+      <div class="count-text" id="resultCount">— Films</div>
+    </div>
+    <div class="poster-grid" id="posterGrid"></div>
+    <div class="empty-state" id="emptyState" hidden>該当する作品がありません。</div>
+  </div>
+</section>
+
+<!-- =================== DETAIL VIEW =================== -->
+<section class="detail-view" id="detailView">
+  <div class="detail-mini-bar">
+    <button class="mini-back" id="miniBackBtn" aria-label="一覧へ戻る">←</button>
+    <div class="mini-poster" id="miniPoster"></div>
+    <div class="mini-info">
+      <div class="mini-title" id="miniTitle"></div>
+      <div class="mini-meta" id="miniMeta"></div>
+    </div>
+    <div class="mini-score" id="miniScore"></div>
+  </div>
+  <button class="detail-back" id="backBtn">← 一覧へ戻る</button>
+  <div class="detail-hero">
+    <div class="detail-issue-strip">
+      <span class="cat" id="dCategory">REVIEW</span>
+      <span id="dIssueDate">— · VOL.01</span>
+    </div>
+  </div>
+  <div class="detail-grid">
+    <div class="detail-poster-wrap">
+      <div id="dPoster"></div>
+      <div class="detail-poster-info" id="dPosterInfo"></div>
+    </div>
+    <div class="detail-content">
+      <h1 class="detail-title" id="dTitle"></h1>
+      <div class="detail-orig" id="dOrig"></div>
+      <div class="detail-meta-row" id="dMetaRow"></div>
+
+      <div class="detail-score-block">
+        <div class="detail-score-num" id="dScoreNum">—<small>OUT OF 100</small></div>
+        <div class="detail-score-verdict" id="dVerdict"></div>
+      </div>
+
+      <div class="stream-section" id="dStreamSection">
+        <div class="stream-label"><span class="play">▶</span>WATCH NOW — 配信中サービス</div>
+        <div class="stream-buttons" id="dStreams"></div>
+      </div>
+
+      <p class="detail-lead" id="dLead"></p>
+      <div class="detail-body" id="dBody"></div>
+
+      <div class="pull-quote" id="dQuote"></div>
+
+      <div class="detail-tags" id="dTags"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © POPCORN <span class="red">&amp;</span> PRESS · Est. 2026
+  <span class="small">Reviews are personal opinions. Numbers don't lie — but they aren't the whole story either.</span>
+</footer>
+
+<script>
+// ============ FILM DATA ============
+const films = [
+  {
+    id:"spirit",
+    title:"千と千尋の神隠し",
+    orig:"Spirited Away",
+    director:"宮崎駿",
+    year:2001,
+    runtime:125,
+    country:"日本",
+    genre:["アニメーション","ファンタジー"],
+    score:97,
+    verdict:"日本アニメ史の到達点",
+    lead:"湯屋の湯気の奥に、子どもが大人になる瞬間がある。何度観ても、その湯気の温度は変わらない。",
+    body:[
+      "宮崎駿が描く異界には常に、きちんとした「労働」がある。千尋が湯屋で働き始める一連のシーンの積み重ねが、この映画を単なるファンタジーから「成長譚」へと押し上げている。",
+      "豚にされた両親、名前を奪われる主人公、消えていく文字——本作のモチーフは喪失で貫かれているのに、観終わった後に残るのは静かな前向きさだ。それは、千尋がただ生き延びたからではなく、自分のやり方で世界と向き合うことを選んだからだろう。",
+      "電車のシーンの、あの沈黙。窓の外を流れる海の景色。ここに台詞はいらない。映像と音だけで、これほどまでに「人生」を語れるという事実に、毎回胸を打たれる。"
+    ],
+    quote:"千尋が湯屋で働き始める一連のシーンが、ファンタジーを成長譚に変えている。",
+    tags:["スタジオジブリ","成長譚","2001年","必見"]
+  },
+  {
+    id:"perfect",
+    title:"PERFECT DAYS",
+    orig:"Perfect Days",
+    director:"ヴィム・ヴェンダース",
+    year:2023,
+    runtime:124,
+    country:"日本／ドイツ",
+    genre:["ドラマ"],
+    score:94,
+    verdict:"ささやかな日常の祝祭",
+    lead:"トイレ清掃員の毎日を、これほど豊かに描けるのかと驚かされる。ヴェンダースが東京で見つけた、もう一つの侘び寂び。",
+    body:[
+      "役所広司の演技は、台詞の少なさとは裏腹に雄弁だ。コップ一杯の缶コーヒー、銭湯、古本屋、フィルムカメラ——平山という男の生活の断片が積み重なるうちに、観客はいつの間にか彼の呼吸のリズムに同調している。",
+      "本作の核は、「同じことの繰り返し」がどれだけ尊いかという発見にある。朝、布団を畳み、車で出かけ、木漏れ日を見上げる。その一つひとつが祈りのようでもある。",
+      "ラストの長回し、フェイクタウンを思い出させるあの表情。涙か笑顔か、その境界に立つ役所広司の顔は、近年の日本映画でもっとも記憶に残る一枚だろう。"
+    ],
+    quote:"「同じことの繰り返し」がどれだけ尊いかという発見が、本作の核にある。",
+    tags:["ヴェンダース","役所広司","東京","2023年","ヒューマンドラマ"]
+  },
+  {
+    id:"drive-car",
+    title:"ドライブ・マイ・カー",
+    orig:"Drive My Car",
+    director:"濱口竜介",
+    year:2021,
+    runtime:179,
+    country:"日本",
+    genre:["ドラマ"],
+    score:95,
+    verdict:"沈黙が、言葉を超えるとき",
+    lead:"村上春樹の短編から、179分の「対話」が生まれた。車内という閉ざされた空間が、これほど深い心の風景になるとは。",
+    body:[
+      "本作の主人公・家福は、妻を喪った演出家だ。彼が新作の演出のために広島へ赴き、寡黙な専属ドライバーと出会う——筋立てだけ書くとシンプルだが、その奥に張り巡らされた感情の網は途方もなく繊細だ。",
+      "多言語演劇『ワーニャ伯父さん』のリハーサル場面が、本作の白眉である。手話を含む複数の言語が交錯するなか、俳優たちが「意味」ではなく「気配」で繋がっていく。それは家福と渡利の関係と、見事に呼応している。",
+      "車のなかで流れる古いカセットテープ、北海道の雪原、煙草の煙——濱口の演出は徹底して即物的でありながら、観終わった後に残るのは形而上的な静けさだ。"
+    ],
+    quote:"俳優たちが「意味」ではなく「気配」で繋がっていく。",
+    tags:["濱口竜介","村上春樹","アカデミー賞","2021年"]
+  },
+  {
+    id:"2001",
+    title:"2001年宇宙の旅",
+    orig:"2001: A Space Odyssey",
+    director:"スタンリー・キューブリック",
+    year:1968,
+    runtime:149,
+    country:"アメリカ／イギリス",
+    genre:["SF"],
+    score:98,
+    verdict:"映画という芸術の臨界点",
+    lead:"60年近く前に作られた一本が、いまも未来の映画として君臨している。「映画とは何か」を問う者は、まずここに帰ってくる。",
+    body:[
+      "冒頭の類人猿のシークエンスから、宇宙ステーションのワルツへ繋がるあの編集——おそらく映画史上もっとも野心的なカットだ。300万年を一瞬で飛び越えるその大胆さに、未だに追いつけている作品は少ない。",
+      "HAL 9000という人工知能の描写が、今もって古びていないどころか、現代のAI議論を先取りしている事実には戦慄を覚える。「Daisy, daisy...」とゆっくり停止していく彼の歌声は、SFが描いた「死」のなかでもっとも哲学的なものだ。",
+      "ラストの「スターゲート」と老人のシーンに「意味」を求めてはいけない。これは映画を超えた体験であり、IMAXの大画面で浴びるべき音と光の儀式である。"
+    ],
+    quote:"これは映画を超えた体験であり、音と光の儀式である。",
+    tags:["キューブリック","SF","1968年","必見","映画史"]
+  },
+  {
+    id:"mood",
+    title:"花様年華",
+    orig:"In the Mood for Love",
+    director:"ウォン・カーウァイ",
+    year:2000,
+    runtime:98,
+    country:"香港",
+    genre:["ロマンス","ドラマ"],
+    score:96,
+    verdict:"スローモーションが描く恋",
+    lead:"60年代の香港、狭い廊下、雨、そしてチャイナドレス。ウォン・カーウァイのカメラは、振り返る一瞬を永遠にする。",
+    body:[
+      "本作で起きていることは、実はひどくシンプルだ。隣人同士の男女が、互いの配偶者の不倫を知り、自分たちもまた同じ感情に近づいていく——ただそれだけ。だが、ウォン・カーウァイはこの単純な物語を、究極のスタイルで磨き上げる。",
+      "クリストファー・ドイルの撮影が魔法のようだ。屋台で麺を買って帰る、廊下ですれ違う、エレベーターの前で立ち止まる——どの瞬間も、まるで雑誌のグラビアのような完成度で切り取られている。",
+      "そしてあのアンコールワットのラスト。秘密を石の穴に囁き、土で塞ぐ男。語られなかった愛が、こうして埋葬される。映画というものが「失われたもの」を慰める装置であることを、これほど美しく示した作品はない。"
+    ],
+    quote:"語られなかった愛が、石の穴に埋葬される。",
+    tags:["ウォン・カーウァイ","香港","ロマンス","2000年"]
+  },
+  {
+    id:"budapest",
+    title:"グランド・ブダペスト・ホテル",
+    orig:"The Grand Budapest Hotel",
+    director:"ウェス・アンダーソン",
+    year:2014,
+    runtime:99,
+    country:"アメリカ／ドイツ",
+    genre:["コメディ","ドラマ"],
+    score:92,
+    verdict:"様式美の極北、その甘苦さ",
+    lead:"ピンクのケーキ箱のような完璧な構図。だがその中身は、戦争に呑み込まれていく古き良き時代への、痛切な追悼だ。",
+    body:[
+      "ウェス・アンダーソンの作家性が、ここでひとつの完成を見た。シンメトリーの構図、パステルの色彩、チャプター仕立ての語り、人形劇のような美術——彼の偏愛するすべてが、ホテルという舞台のために用意されたかのようだ。",
+      "レイフ・ファインズ演じるグスタヴ氏は、本作最大の発明である。慇懃で滑稽で、しかし芯のところで誇り高い。彼が体現する「文明」は、すでに失われつつあるものへのオマージュだ。",
+      "笑いながら観ているはずなのに、ふと気づくと胸が締めつけられる。ウェスの映画はいつもそうだが、本作の場合、その甘苦さがもっとも純度高く結晶化している。"
+    ],
+    quote:"笑いながら観ているはずなのに、ふと気づくと胸が締めつけられる。",
+    tags:["ウェス・アンダーソン","コメディ","2014年","美術"]
+  },
+  {
+    id:"parasite",
+    title:"パラサイト 半地下の家族",
+    orig:"Parasite",
+    director:"ポン・ジュノ",
+    year:2019,
+    runtime:132,
+    country:"韓国",
+    genre:["スリラー","ブラックコメディ"],
+    score:95,
+    verdict:"階段の映画、階級の映画",
+    lead:"半地下と高台。降りる者と昇る者。ポン・ジュノは「階段」というモチーフを使って、現代社会の縮図を描き切った。",
+    body:[
+      "前半のコメディから後半のホラーへの転換が、これほど鮮やかな映画は珍しい。誕生日パーティーのあのシーンから、観客は決して安全な場所には戻れない。",
+      "本作の真の主役は、家ではなく「階段」だ。下から上へ、上から下へ、人々は絶え間なく階段を昇り降りする。そのたびに、彼らの社会的位置が露わになっていく——見事な視覚的レトリックだ。",
+      "アカデミー賞を取ったのは当然として、本作の凄みはむしろ韓国映画の文脈にある。ポン・ジュノは『殺人の追憶』から一貫して、社会の不条理と個人の悲喜劇を結びつけてきた。本作はその集大成である。"
+    ],
+    quote:"本作の真の主役は、家ではなく「階段」だ。",
+    tags:["ポン・ジュノ","韓国","アカデミー賞","2019年","階級"]
+  },
+  {
+    id:"mad",
+    title:"マッドマックス 怒りのデス・ロード",
+    orig:"Mad Max: Fury Road",
+    director:"ジョージ・ミラー",
+    year:2015,
+    runtime:120,
+    country:"オーストラリア／アメリカ",
+    genre:["アクション","SF"],
+    score:89,
+    verdict:"アクション映画の純度、極まる",
+    lead:"行って、戻ってくる——たったそれだけのプロットで、120分間ずっと脳内アドレナリンを噴出させ続けるという暴挙。",
+    body:[
+      "ジョージ・ミラーは70歳を超えて、若手のどんな監督よりも荒々しいアクション映画を撮ってみせた。これは奇跡だ。",
+      "シャーリーズ・セロン演じるフュリオサが、本作の真の主人公である。マックスはむしろ脇役として、彼女の闘いを補佐する。これだけ女性キャラクターを真の中心に据えたアクション大作は、ハリウッドではほとんど例がない。",
+      "ほぼ全編がカーチェイスという狂気の構成。そこに「種を運ぶ」という再生のモチーフが重なることで、本作は単なる暴力の祝祭を超えて、生命の物語になる。CGに頼らない実写スタントの迫力は、後の世代のお手本であり続けるだろう。"
+    ],
+    quote:"これだけ女性キャラクターを真の中心に据えたアクション大作は、ほとんど例がない。",
+    tags:["ジョージ・ミラー","アクション","2015年","フュリオサ"]
+  },
+  {
+    id:"whip",
+    title:"セッション",
+    orig:"Whiplash",
+    director:"デイミアン・チャゼル",
+    year:2014,
+    runtime:107,
+    country:"アメリカ",
+    genre:["ドラマ","音楽"],
+    score:87,
+    verdict:"才能と狂気、紙一重の代償",
+    lead:"ドラムスティックが血で滑る。J・K・シモンズの怒声が脳天を突き刺す。ここまで観客を消耗させる音楽映画は他にない。",
+    body:[
+      "「Not quite my tempo.」——映画史に残る名台詞のひとつだろう。J・K・シモンズが演じるフレッチャー教授の、あの静かな圧力。彼の存在だけで、この映画は成立している。",
+      "本作で問われているのは、「教育とは何か」という根本的な問いだ。才能を引き出すためなら、人格を破壊することすら正当化されるのか。チャゼルはこの問いに明確な答えを出さない——むしろ、観客を共犯者にしてしまう。",
+      "ラスト9分間のドラムソロは、映画的興奮の頂点である。ニーマンが叩く一打一打が、彼自身の人生を賭けた言葉になっている。気持ちいいのか、恐ろしいのか、観終わってもしばらく判別がつかない。それこそが本作の凄みだ。"
+    ],
+    quote:"観客を共犯者にしてしまう——それこそが本作の凄み。",
+    tags:["チャゼル","ジャズ","2014年","J・K・シモンズ"]
+  },
+  {
+    id:"lala",
+    title:"ラ・ラ・ランド",
+    orig:"La La Land",
+    director:"デイミアン・チャゼル",
+    year:2016,
+    runtime:128,
+    country:"アメリカ",
+    genre:["ミュージカル","ロマンス"],
+    score:84,
+    verdict:"夢を選ぶか、人を選ぶか",
+    lead:"ロサンゼルスの夕暮れが、これほどまでに切ない色をしているとは。チャゼルが綴る、ほろ苦い大人のおとぎ話。",
+    body:[
+      "オープニングのハイウェイ・ナンバーから心を掴まれる。長回し、CG、振付、音楽——すべてが完璧なバランスで噛み合った、近年稀に見るシークエンスだ。",
+      "本作の真価は、しかし、ラストの「もしも」シーンにある。実現しなかった未来が、夢のように差し挟まれ、そして消える。あの数分間で、観客は二人の人生を二度生きることになる。",
+      "減点の理由を挙げるなら、中盤の音楽がやや凡庸になる時間帯があること、そしてセブの「真のジャズ」へのこだわりが少しナルシスティックに映る点だ。とはいえ、それを補って余りある美しさがある。"
+    ],
+    quote:"あの数分間で、観客は二人の人生を二度生きることになる。",
+    tags:["チャゼル","ミュージカル","2016年","ロサンゼルス"]
+  },
+  {
+    id:"blade",
+    title:"ブレードランナー 2049",
+    orig:"Blade Runner 2049",
+    director:"ドゥニ・ヴィルヌーヴ",
+    year:2017,
+    runtime:163,
+    country:"アメリカ",
+    genre:["SF"],
+    score:91,
+    verdict:"続編という不可能を、可能にした",
+    lead:"オリジナルを汚すことなく、しかし媚びることもなく。35年越しの続編が、これほど自立した作品になるとは。",
+    body:[
+      "ロジャー・ディーキンスの撮影は、もはや暴力的なまでに美しい。ラスベガスの黄色い砂塵、ロサンゼルスの灰色の雨、海上施設の冷たい青——色彩設計だけでひとつの映画として成立している。",
+      "ライアン・ゴズリング演じるKは、自分が「特別」かもしれないという可能性に翻弄される。だが本作が描くのは、「自分は特別ではなかった」と知った瞬間にこそ、人間性が立ち上がるということだ。これはSFの皮を被った、非常に切実な物語である。",
+      "163分という長尺を「長い」と感じるかどうかで、評価が分かれるだろう。私は短いと思った。ヴィルヌーヴの映画は、時間そのものを再構築する。"
+    ],
+    quote:"「自分は特別ではなかった」と知った瞬間にこそ、人間性が立ち上がる。",
+    tags:["ヴィルヌーヴ","SF","2017年","ディーキンス"]
+  },
+  {
+    id:"drv",
+    title:"ドライヴ",
+    orig:"Drive",
+    director:"ニコラス・ウィンディング・レフン",
+    year:2011,
+    runtime:100,
+    country:"アメリカ",
+    genre:["クライム","ドラマ"],
+    score:86,
+    verdict:"スタイルが、内容を凌駕する",
+    lead:"ピンクの筆記体タイトル、80年代風のシンセ、ライアン・ゴズリングの寡黙——すべてが完璧なムードを構築する一作。",
+    body:[
+      "本作の魅力は、ストーリーよりも「質感」にある。ロサンゼルスの夜、エレベーターのワンシーン、ジャケットに刺繍された蠍——細部の積み重ねがそのまま映画の体温になっている。",
+      "ライアン・ゴズリングはここで「沈黙の演技」の極北に到達した。台詞をほとんど与えられないなか、視線と微細な表情だけで、彼が抱えている孤独と暴力性を伝えてみせる。",
+      "暴力描写は突然で、しかも執拗だ。レフンはそれを美学として提示するが、観る側を選ぶことは確かである。とはいえ、サウンドトラック込みで2010年代を代表するスタイル映画と言って差し支えない。"
+    ],
+    quote:"ライアン・ゴズリングは、ここで「沈黙の演技」の極北に到達した。",
+    tags:["レフン","ノワール","2011年","ロサンゼルス"]
+  },
+  {
+    id:"her",
+    title:"her／世界でひとつの彼女",
+    orig:"Her",
+    director:"スパイク・ジョーンズ",
+    year:2013,
+    runtime:126,
+    country:"アメリカ",
+    genre:["SF","ロマンス"],
+    score:82,
+    verdict:"AIとの恋という、近すぎる未来",
+    lead:"2013年に作られたこの映画は、いま観るとSFというより、ほとんどドキュメンタリーのように思える。",
+    body:[
+      "OSと恋に落ちる男——プレミスは奇抜だが、本作はそれを徹底的に「普通の恋愛映画」として撮ることで成功している。違和感を演出に逃さない、ジョーンズの誠実さ。",
+      "サマンサの声を演じるスカーレット・ヨハンソンの仕事は、声優の歴史を更新したと言ってもいい。姿が見えないからこそ、彼女の存在感は逆説的に強くなる。",
+      "色彩設計が独特で、近未来のロサンゼルスがコーラルピンクとオレンジの暖色で統一されている。冷たいSFではなく、暖かいSF——その温度感が、AIとの恋という主題に絶妙に響き合っている。生成AIが普及した今こそ、再見すべき一作。"
+    ],
+    quote:"いま観るとSFというより、ほとんどドキュメンタリーのように思える。",
+    tags:["スパイク・ジョーンズ","SF","2013年","AI"]
+  },
+  {
+    id:"portrait",
+    title:"燃ゆる女の肖像",
+    orig:"Portrait of a Lady on Fire",
+    director:"セリーヌ・シアマ",
+    year:2019,
+    runtime:122,
+    country:"フランス",
+    genre:["ロマンス","ドラマ"],
+    score:96,
+    verdict:"視線が、欲望になる瞬間",
+    lead:"絵を描くことは、見ることだ。見ることは、愛することだ。シアマがその等式を、息を呑む美しさで証明する。",
+    body:[
+      "18世紀のブルターニュ、孤島の屋敷。画家のマリアンヌが、結婚を控えた令嬢エロイーズの肖像を密かに描く——そこから始まる二人の関係は、観察と被観察、所有と被所有の境界を、丁寧にずらしていく。",
+      "本作には男性の登場人物がほとんどいない。それでいて、男性社会の重圧が常に画面の外側で鳴り響いている。シアマの演出は、台詞ではなく、構図と沈黙でそれを表現する。",
+      "終盤、ヴィヴァルディの『四季』が流れるあの長回しのショット。エロイーズの泣き笑いの表情に、私たちは映画というメディアが、本当は何のためにあるのかを思い出す。記憶を、心に焼き付けるためにある。"
+    ],
+    quote:"絵を描くことは、見ることだ。見ることは、愛することだ。",
+    tags:["シアマ","フランス","2019年","クィア"]
+  },
+  {
+    id:"bat",
+    title:"THE BATMAN／ザ・バットマン",
+    orig:"The Batman",
+    director:"マット・リーヴス",
+    year:2022,
+    runtime:176,
+    country:"アメリカ",
+    genre:["クライム","アクション"],
+    score:78,
+    verdict:"ノワールとしてのバットマン",
+    lead:"ヒーロー映画の枠を捨てて、犯罪映画として撮られた一本。長尺だが、あの陰鬱なゴッサムの空気が癖になる。",
+    body:[
+      "ロバート・パティンソンのバットマンは、明らかに「探偵」として位置付けられている。本作の語り口はデヴィッド・フィンチャーの『セブン』に近く、ヒーローというよりノワールの主人公だ。",
+      "リドラーを演じるポール・ダノが不気味で素晴らしい。SNS時代の連続殺人犯像として、極めてアクチュアルだ。",
+      "ただ176分は長い。中盤に明らかに緩む箇所があり、編集の整理ができていれば9点台に届いたはず。とはいえ、暗くて重いバットマン映画を求めていた層には深く刺さる一本だろう。"
+    ],
+    quote:"ヒーローというよりノワールの主人公として描かれている。",
+    tags:["マット・リーヴス","DC","2022年","ノワール"]
+  },
+  {
+    id:"joker",
+    title:"ジョーカー",
+    orig:"Joker",
+    director:"トッド・フィリップス",
+    year:2019,
+    runtime:122,
+    country:"アメリカ",
+    genre:["クライム","ドラマ"],
+    score:75,
+    verdict:"演技に支えられた、危うい一作",
+    lead:"ホアキン・フェニックスのアカデミー賞は、間違いなく彼のものだ。だが映画そのものの評価となると、話は別だ。",
+    body:[
+      "ホアキン・フェニックスの肉体改造と憑依的な演技は、近年のハリウッドでも飛び抜けている。彼が踊る階段のシーンは既に映画史の一部になった。",
+      "問題は、本作が描く「社会から見捨てられた男が暴力に走る」という物語の構造だ。マーティン・スコセッシの『タクシードライバー』と『キング・オブ・コメディ』を意識しているのは明白だが、その引用が結果的に作品の独自性を弱めている面もある。",
+      "観客に与える刺激の強さに対して、提示している思想はやや薄い。とはいえホアキンを観るためだけでも、価値のある一本ではある。"
+    ],
+    quote:"ホアキンを観るためだけでも、価値のある一本ではある。",
+    tags:["トッド・フィリップス","DC","2019年","ホアキン"]
+  }
+];
+
+// ============ POSTER RENDERERS ============
+const posterMarkup = {
+  spirit:    `<div class="big-kanji">千</div><div class="sub">神隠し</div><div class="ttl">SPIRITED AWAY · 2001</div>`,
+  perfect:   `<div class="ttl">PERFECT<small>WIM WENDERS</small></div><div class="sun"></div><div class="ttl">DAYS<small>2023</small></div>`,
+  "drive-car": `<div class="yr">2021</div><div class="car"></div><div class="ttl">ドライブ・マイ・カー<small>HAMAGUCHI</small></div>`,
+  "2001":    `<div class="eye"></div><div class="ttl">2001</div>`,
+  mood:      `<div class="kanji">花樣<br>年華</div><div class="line-deco"></div><div class="yr">2000</div><div class="en">In the Mood for Love</div>`,
+  budapest:  `<div class="hotel"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="ttl">The Grand<br>Budapest Hotel<small>WES ANDERSON · 2014</small></div>`,
+  parasite:  `<div class="yr">2019</div><div class="bar-top"></div><div class="bar-bot"></div><div class="ttl">PARASITE</div>`,
+  mad:       `<div class="v"></div><div class="ttl">FURY<br>ROAD<small>MAD MAX · 2015</small></div>`,
+  whip:      `<div class="stick"></div><div class="vert">WHIPLASH</div><div class="ttl">セッション</div>`,
+  lala:      `<div class="star s1">✦</div><div class="star s2">✦</div><div class="star s3">✦</div><div class="star s4">✦</div><div class="ttl">La La<br>Land<small>CHAZELLE · 2016</small></div>`,
+  blade:     `<div class="silhouette"></div><div class="yr">2049</div><div class="ttl">BLADE RUNNER</div>`,
+  drv:       `<div class="scorpion">𓆗</div><div class="ttl">DRIVE<small>REFN · 2011</small></div>`,
+  her:       `<div class="ttl">her</div><div class="sub">SPIKE JONZE · 2013</div>`,
+  portrait:  `<div class="flame"></div><div class="ttl">燃ゆる女の肖像<small>Sciamma · 2019</small></div>`,
+  bat:       `<div class="symbol"></div><div class="ttl">THE BATMAN</div>`,
+  joker:     `<div class="smile"></div><div class="ttl">JOKER<small>2019</small></div>`
+};
+
+// ============ STREAMING SERVICES ============
+// Service definitions: brand info
+const services = {
+  netflix: {name:"Netflix",     short:"N", base:"https://www.netflix.com/search?q="},
+  hulu:    {name:"Hulu",        short:"H", base:"https://www.hulu.jp/search/?text="},
+  amazon:  {name:"Prime Video", short:"P", base:"https://www.amazon.co.jp/s?i=instant-video&k="},
+  unext:   {name:"U-NEXT",      short:"U", base:"https://video.unext.jp/freeword?query="},
+  disney:  {name:"Disney+",     short:"D", base:"https://www.disneyplus.com/search?q="},
+  apple:   {name:"Apple TV+",   short:"A", base:"https://tv.apple.com/jp/search?term="}
+};
+// Per-film service availability (replace URLs with affiliate URLs as needed).
+// Order matters — first listed will appear first in chips/buttons.
+const filmStreams = {
+  spirit:      ["netflix"],
+  perfect:     ["amazon","unext"],
+  "drive-car": ["netflix","amazon","unext"],
+  "2001":      ["amazon","apple","unext"],
+  mood:        ["apple","amazon"],
+  budapest:    ["disney","amazon"],
+  parasite:    ["hulu","amazon","netflix"],
+  mad:         ["netflix","amazon","unext"],
+  whip:        ["netflix","amazon"],
+  lala:        ["netflix","amazon","unext"],
+  blade:       ["amazon","netflix"],
+  drv:         ["amazon","unext"],
+  her:         ["netflix","amazon"],
+  portrait:    ["unext","amazon"],
+  bat:         ["amazon","unext","netflix"],
+  joker:       ["netflix","amazon","unext"]
+};
+function streamUrl(svcKey, film){
+  const svc = services[svcKey];
+  if(!svc) return "#";
+  return svc.base + encodeURIComponent(film.orig);
+}
+function renderChips(film){
+  const list = filmStreams[film.id] || [];
+  if(list.length === 0) return "";
+  const chips = list.map(k => {
+    const svc = services[k]; if(!svc) return "";
+    return `<a class="stream-chip svc-${k}" href="${streamUrl(k, film)}" target="_blank" rel="noopener" title="${svc.name}で観る" onclick="event.stopPropagation()">${svc.short}</a>`;
+  }).join("");
+  return `<div class="stream-chips"><span class="chip-label">▶</span>${chips}</div>`;
+}
+function renderStreamButtons(film){
+  const list = filmStreams[film.id] || [];
+  if(list.length === 0) return `<div style="font-family:'Fraunces',serif;font-style:italic;color:var(--ink-soft);font-size:14px;">現在、主要な配信サービスでは取り扱いがありません。</div>`;
+  return list.map(k => {
+    const svc = services[k]; if(!svc) return "";
+    return `<a class="stream-btn svc-${k}" href="${streamUrl(k, film)}" target="_blank" rel="noopener">${svc.name}<span class="arrow">↗</span></a>`;
+  }).join("");
+}
+
+// ============ ISSUES (月号) & GENRES ============
+// Issue list — newest first; "all" pseudo-issue
+const issues = [
+  { id:"all",     label:"ALL ISSUES" },
+  { id:"2026-05", label:"VOL.05 — 2026年5月" },
+  { id:"2026-04", label:"VOL.04 — 2026年4月" },
+  { id:"2026-03", label:"VOL.03 — 2026年3月" },
+  { id:"2026-02", label:"VOL.02 — 2026年2月" },
+  { id:"2026-01", label:"VOL.01 — 2026年1月" }
+];
+// Per-film issue assignment
+const filmIssues = {
+  spirit:      "2026-05",
+  perfect:     "2026-05",
+  "drive-car": "2026-05",
+  portrait:    "2026-05",
+  "2001":      "2026-04",
+  mood:        "2026-04",
+  parasite:    "2026-04",
+  mad:         "2026-03",
+  blade:       "2026-03",
+  whip:        "2026-03",
+  budapest:    "2026-02",
+  lala:        "2026-02",
+  drv:         "2026-02",
+  her:         "2026-01",
+  bat:         "2026-01",
+  joker:       "2026-01"
+};
+// Genre filter options — keyword in `genre` array of each film
+const genres = [
+  { key:"all",          label:"すべて" },
+  { key:"ドラマ",        label:"ドラマ" },
+  { key:"SF",            label:"SF" },
+  { key:"ロマンス",      label:"ロマンス" },
+  { key:"アクション",    label:"アクション" },
+  { key:"クライム",      label:"クライム" },
+  { key:"コメディ",      label:"コメディ" },
+  { key:"アニメーション", label:"アニメ" }
+];
+
+// ============ STATE ============
+let currentBand = "all";
+let currentGenre = "all";
+let currentIssue = "all";
+const grid = document.getElementById("posterGrid");
+const gridView = document.getElementById("gridView");
+const detailView = document.getElementById("detailView");
+const emptyState = document.getElementById("emptyState");
+
+// ============ RENDER GRID ============
+function scoreClass(s){
+  if(s >= 95) return "red";
+  if(s >= 85) return "gold";
+  return "";
+}
+
+function inBand(score, band){
+  if(band === "all") return true;
+  if(band === "90") return score >= 90;
+  if(band === "80") return score >= 80 && score < 90;
+  if(band === "70") return score >= 70 && score < 80;
+  return false;
+}
+
+function isMatch(film, opts = {}){
+  const band  = opts.band  ?? currentBand;
+  const genre = opts.genre ?? currentGenre;
+  const issue = opts.issue ?? currentIssue;
+  if(!inBand(film.score, band)) return false;
+  if(genre !== "all" && !film.genre.includes(genre)) return false;
+  if(issue !== "all" && filmIssues[film.id] !== issue) return false;
+  return true;
+}
+
+function renderGrid(){
+  const filtered = films.filter(f => isMatch(f));
+  grid.innerHTML = "";
+  emptyState.hidden = filtered.length !== 0;
+
+  filtered.forEach((f, i) => {
+    const card = document.createElement("div");
+    card.className = "poster-card";
+    card.style.animationDelay = `${i * 0.04}s`;
+    card.innerHTML = `
+      <div class="poster p-${f.id}">
+        <div class="score-badge ${scoreClass(f.score)}">${f.score}</div>
+        ${posterMarkup[f.id] || ""}
+      </div>
+      ${renderChips(f)}
+    `;
+    card.addEventListener("click", () => goToDetail(f.id));
+    grid.appendChild(card);
+  });
+
+  document.getElementById("resultCount").textContent = `${filtered.length} FILMS`;
+  updateCounts();
+}
+
+// ============ FILTER (SCORE) ============
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    currentBand = btn.dataset.band;
+    renderGrid();
+  });
+});
+
+// ============ FILTER (GENRE) ============
+function renderGenreButtons(){
+  const row = document.getElementById("genreRow");
+  // Clear existing buttons except label
+  row.querySelectorAll(".genre-btn").forEach(b => b.remove());
+  genres.forEach(g => {
+    const btn = document.createElement("button");
+    btn.className = "genre-btn" + (g.key === currentGenre ? " is-active" : "");
+    btn.dataset.genre = g.key;
+    btn.textContent = g.label;
+    btn.addEventListener("click", () => {
+      currentGenre = g.key;
+      row.querySelectorAll(".genre-btn").forEach(b => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      renderGrid();
+    });
+    row.appendChild(btn);
+  });
+}
+
+// ============ ISSUE SELECTOR ============
+const issueSelector = document.getElementById("issueSelector");
+const issueDropdown = document.getElementById("issueDropdown");
+const currentIssueLabel = document.getElementById("currentIssueLabel");
+
+function renderIssueDropdown(){
+  issueDropdown.innerHTML = "";
+  issues.forEach((iss, idx) => {
+    const btn = document.createElement("button");
+    btn.dataset.issue = iss.id;
+    btn.textContent = iss.label;
+    if(iss.id === currentIssue) btn.classList.add("is-active");
+    if(iss.id === "all") btn.classList.add("issue-divider");
+    btn.addEventListener("click", () => {
+      currentIssue = iss.id;
+      currentIssueLabel.textContent = iss.label;
+      issueDropdown.hidden = true;
+      issueSelector.classList.remove("is-open");
+      renderIssueDropdown();
+      renderGrid();
+    });
+    issueDropdown.appendChild(btn);
+  });
+}
+
+issueSelector.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isHidden = issueDropdown.hidden;
+  issueDropdown.hidden = !isHidden;
+  issueSelector.classList.toggle("is-open", isHidden);
+});
+
+document.addEventListener("click", (e) => {
+  if(!e.target.closest(".meta-r")){
+    issueDropdown.hidden = true;
+    issueSelector.classList.remove("is-open");
+  }
+});
+
+// ============ COUNT BADGES (dynamic by current filters) ============
+function updateCounts(){
+  ["all","90","80","70"].forEach(band => {
+    const el = document.getElementById(`cnt-${band}`);
+    if(!el) return;
+    const n = films.filter(f => isMatch(f, { band })).length;
+    el.textContent = n;
+  });
+}
+
+// ============ DETAIL VIEW ============
+function goToDetail(id){
+  const f = films.find(x => x.id === id);
+  if(!f) return;
+
+  document.getElementById("dCategory").textContent = f.genre.join(" · ").toUpperCase();
+  document.getElementById("dIssueDate").textContent = `${f.year}年公開 · VOL.01`;
+  document.getElementById("dTitle").textContent = f.title;
+  document.getElementById("dOrig").textContent = f.orig;
+
+  document.getElementById("dMetaRow").innerHTML = `
+    <span>監督 — ${f.director}</span>
+    <span>${f.year}年</span>
+    <span>${f.runtime}分</span>
+    <span>${f.country}</span>
+  `;
+
+  document.getElementById("dScoreNum").innerHTML = `${f.score}<small>OUT OF 100</small>`;
+  document.getElementById("dVerdict").innerHTML = `「${f.verdict}」<small>EDITOR'S TAKE</small>`;
+
+  // Streaming services
+  document.getElementById("dStreams").innerHTML = renderStreamButtons(f);
+
+  document.getElementById("dLead").textContent = f.lead;
+  // Show only first 2 body paragraphs for compact reading
+  document.getElementById("dBody").innerHTML = f.body.slice(0, 2).map(p => `<p>${p}</p>`).join("");
+  document.getElementById("dQuote").textContent = f.quote;
+  document.getElementById("dTags").innerHTML = f.tags.map((t,i) => `<span class="tag${i===0?' accent':''}">#${t}</span>`).join("");
+
+  // Render the full-size poster on the detail page (desktop)
+  const dPoster = document.getElementById("dPoster");
+  dPoster.innerHTML = `<div class="detail-poster poster p-${f.id}">${posterMarkup[f.id] || ""}</div>`;
+
+  document.getElementById("dPosterInfo").innerHTML = `${f.director}<br>${f.year} · ${f.runtime} min`;
+
+  // Mini bar for mobile sticky
+  document.getElementById("miniPoster").innerHTML = `<div class="poster p-${f.id}">${posterMarkup[f.id] || ""}</div>`;
+  document.getElementById("miniTitle").textContent = f.title;
+  document.getElementById("miniMeta").textContent = `${f.director} · ${f.year}`;
+  document.getElementById("miniScore").textContent = f.score;
+
+  document.body.classList.add("is-detail");
+  gridView.classList.add("is-hidden");
+  detailView.classList.add("is-active");
+  window.scrollTo({top:0, behavior:"instant"});
+  history.pushState({view:"detail", id}, "", `#/film/${id}`);
+}
+
+function goToGrid(){
+  document.body.classList.remove("is-detail");
+  detailView.classList.remove("is-active");
+  gridView.classList.remove("is-hidden");
+  window.scrollTo({top:0, behavior:"instant"});
+  history.pushState({view:"grid"}, "", "#/");
+}
+
+document.getElementById("backBtn").addEventListener("click", goToGrid);
+document.getElementById("miniBackBtn").addEventListener("click", goToGrid);
+
+window.addEventListener("popstate", (e) => {
+  const hash = location.hash;
+  if(hash.startsWith("#/film/")){
+    const id = hash.replace("#/film/", "");
+    goToDetail(id);
+  } else {
+    document.body.classList.remove("is-detail");
+    detailView.classList.remove("is-active");
+    gridView.classList.remove("is-hidden");
+  }
+});
+
+// ============ INIT ============
+renderGenreButtons();
+renderIssueDropdown();
+renderGrid();
+
+// Initial route check
+if(location.hash.startsWith("#/film/")){
+  const id = location.hash.replace("#/film/", "");
+  if(films.find(f => f.id === id)) goToDetail(id);
+}
+</script>
+</body>
+</html>
