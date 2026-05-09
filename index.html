@@ -638,7 +638,7 @@
   </div>
   <h1 class="masthead-title">Velvet<span class="amp">&amp;</span>Press</h1>
   <div class="masthead-bottom">
-    <div class="tagline">— an after-hours review magazine, scored honestly.</div>
+    <div class="tagline">— in praise of the women who light up the night.</div>
     <div class="issue">100 / 100 SCORING SYSTEM</div>
   </div>
 </header>
@@ -725,18 +725,18 @@
 // All titles, codes, directors, studios are SAMPLE PLACEHOLDERS.
 // Replace with real data when going live.
 const films = [
-  {id:"vlv01", code:"VLV-001", title:"深夜の温度",   orig:"Late Night Temperature",  director:"監督A", studio:"スタジオA", year:2026, runtime:120, score:96, verdict:"年間ベスト級の演出力", genre:["ドラマ","単体"],
-    lead:"撮影と照明、すべてが計算され尽くした一本。ジャンル作品としての枠を超えて記憶に残る。",
-    body:["前半の構成が群を抜いて巧い。テンポと間の取り方が、見る者を自然に作品世界へ引き込んでいく。","後半の展開も丁寧で、最後まで集中力が途切れない。総じて、メーカーの本気を感じる完成度の高い一本。"],
-    tags:["スタジオA","2026","ドラマ","年間TOP10"]},
-  {id:"vlv02", code:"VLV-002", title:"二月の余白",   orig:"February Margins",        director:"監督B", studio:"スタジオB", year:2026, runtime:110, score:92, verdict:"静謐な空気感が秀逸",   genre:["ドラマ","ロマンス"],
-    lead:"派手さはないが、丁寧に積み上げられた情感が観終わった後にじわりと残る。",
-    body:["撮影監督の仕事が見事。光の使い方ひとつで、シーンの温度が大きく変わることを再認識させてくれる。","出演者の表情を捉えるカメラワークも秀逸で、編集のテンポも非常に良い。"],
-    tags:["スタジオB","2026","ロマンス"]},
-  {id:"vlv03", code:"VLV-003", title:"沈黙のサロン", orig:"Silent Salon",            director:"監督C", studio:"スタジオC", year:2026, runtime:130, score:94, verdict:"圧倒的な世界観構築",   genre:["シチュエーション","ドラマ"],
-    lead:"設定の緻密さ、美術の作り込み、すべてが一級品。シリーズ化を期待したい意欲作。",
-    body:["世界観の構築力が圧倒的。美術部の仕事が画面の隅々まで行き届いている。","脚本の組み立てもうまく、起承転結のメリハリが効いている。長尺だが冗長さは感じない。"],
-    tags:["スタジオC","2026","シチュエーション","シリーズ化希望"]},
+  {id:"vlv01", code:"HMN-211", title:"ペロペロGAL 堀北わん",   orig:"HMN-211",  director:"本中", studio:"本中", year:2024, runtime:120, score:96, verdict:"間違いなく堀北わんの【最高傑作】", genre:["単体","シチュエーション"],
+    lead:"堀北わんさんの繊細な表情の変化——本作はそれが最も豊かに表れた一本。観終わった後にもう一度観たくなる。",
+    body:["今回はなんと言っても「キス」の描写がとにかく秀逸。","小悪魔ギャルなわんちゃんがM男を徹底的にリードする「甘サド感」がたまらない。息ができないくらい濃厚に責め立てられるシチュエーションはたまらないの一言。特に、主導権を完全に握られて翻弄されていく過程のリアリティがエグい!「ただひたすら可愛いギャルに支配されたい…」って願望がある人には間違いなくぶっ刺さる一本。この熱量、さすがわんちゃんって感じ。超絶おすすめ!!"],
+    tags:["堀北わん","本中","2024","HMN-211"]},
+  {id:"vlv02", code:"DLDSS-485", title:"魅惑のバニホフェラ 月乃ルナ",   orig:"DLDSS-485",  director:"DAHLIA", studio:"DAHLIA", year:2024, runtime:120, score:94, verdict:"月乃ルナが見せる新境地、視覚的破壊力", genre:["シチュエーション","単体"],
+    lead:"月乃ルナちゃんがバニーガールになってくれるだけでも最高なんだけど、今回の目玉「バニホフェラ」がとにかく新感覚でヤバい!",
+    body:["お尻をピョンピョン跳ねさせながらのご奉仕は、正面からの熱量と後ろからの絶景を同時に楽しめる、まさに尻フェチ垂涎の神企画。ルナちゃんのあのエロい表情と、リズムに乗ったテクニックが絶妙に絡み合って、視覚的にも感覚的にも圧倒されること間違いなしだね。","ただの作品に飽きた人には、この新体験のフェティッシュな刺激がグサリと刺さるはず。一度見たら「バニホ」の虜になる、マジで中毒性の高い一本。超絶おすすめ!"],
+    tags:["月乃ルナ","DAHLIA","2024","DLDSS-485","バニーガール"]},
+  {id:"vlv03", code:"GVH-612", title:"接吻依存エスカレート不倫 美咲かんな", orig:"GVH-612",            director:"GLORY QUEST", studio:"GLORY QUEST", year:2024, runtime:130, score:95, verdict:"背徳感たっぷりの接吻依存が最高にエロい",   genre:["ドラマ","シチュエーション"],
+    lead:"憧れの上司・美咲かんなさんとの「許されない関係」を描いた本作、とにかくキスへの執着心が凄まじい!",
+    body:["不倫の罪悪感を打ち消すかのように、何度も、それこそ行為の何倍も重ねられる濃厚なベロキスがとにかく秀逸。オフィスカジュアルを身にまとった凛とした姿と、二人きりになったときに見せる脆さ、そして貪るようなキスのギャップに完全にやられた…!","ストーリー性も高くて、かんなさんの囁き声を聞いているだけで没入感が半端ないんだよね。ただ抜けるだけじゃなく、胸が締め付けられるような切なさと背徳感を同時に味わいたい人にはこれ以上ない一本。マジで名作です!"],
+    tags:["美咲かんな","GLORY QUEST","2024","GVH-612","不倫"]},
   {id:"vlv04", code:"VLV-004", title:"雨の前の手紙", orig:"Letter Before Rain",      director:"監督D", studio:"スタジオD", year:2026, runtime:105, score:88, verdict:"安定感のある王道",     genre:["単体","ロマンス"],
     lead:"派手さはないが、丁寧に作られた手堅い一本。安心して観られる王道作品。",
     body:["伝統的な作りで、ジャンルファンが求めるツボを的確に押さえている。","演出のリズムが心地よく、最後まで飽きさせない構成力は流石のひとこと。"],
@@ -793,9 +793,9 @@ const films = [
 
 // ============ POSTER MARKUP ============
 const posterMarkup = {
-  vlv01: `<div class="num">VLV—001</div><div class="ttl">深夜の温度</div><div class="sub">LATE NIGHT TEMPERATURE</div>`,
-  vlv02: `<div class="frame"><div class="num">VLV·002</div><div class="ttl">二月の余白</div><div class="sub">FEBRUARY MARGINS</div></div>`,
-  vlv03: `<div class="num">VLV—003</div><div class="ttl">沈黙の<br>サロン</div><div class="vert">SILENT SALON</div>`,
+  vlv01: `<div class="num">HMN—211</div><div class="ttl">ペロペロGAL<br>堀北わん</div><div class="sub">HORIKITA WAN · 本中</div>`,
+  vlv02: `<div class="frame"><div class="num">DLDSS·485</div><div class="ttl">月乃ルナ</div><div class="sub">BUNNY · DAHLIA</div></div>`,
+  vlv03: `<div class="num">GVH—612</div><div class="ttl">美咲<br>かんな</div><div class="vert">MISAKI KANNA</div>`,
   vlv04: `<div class="num">VLV·004</div><div class="center"><div class="ttl">04</div><div class="sub">LETTER BEFORE RAIN</div></div><div class="meta">2026 / 105MIN</div>`,
   vlv05: `<div class="num">VLV—005</div><div class="ttl">砂時計の女<small>HOURGLASS WOMAN</small></div>`,
   vlv06: `<div class="center-block"></div><div class="num">VLV—006</div><div class="ttl">Zero Degree<br>Festival</div>`,
@@ -826,14 +826,25 @@ const services = {
   unext:  {name:"U-NEXT",    short:"U", base:"https://video.unext.jp/freeword?query="}
 };
 const filmStreams = {
-  vlv01:["fanza","dmm","duga"], vlv02:["fanza","mgs"],       vlv03:["fanza","duga","mgs"],
+  vlv01:["fanza"], vlv02:["fanza"],       vlv03:["fanza"],
   vlv04:["fanza","dmm"],         vlv05:["fanza","mgs","sod"], vlv06:["fanza","duga","dmm"],
   vlv07:["fanza"],               vlv08:["fanza","dmm","unext"],vlv09:["fanza","mgs"],
   vlv10:["fanza","duga"],        vlv11:["fanza","dmm","mgs"], vlv12:["fanza","unext"],
   vlv13:["fanza","duga"],        vlv14:["fanza","dmm","mgs"], vlv15:["fanza","sod"],
   vlv16:["fanza","dmm","duga"]
 };
+// ============ DIRECT LINKS (個別作品の直リンク) ============
+// アフィリエイトID取得後、al.dmm.co.jp 経由のリンクに置き換える
+const directLinks = {
+  vlv01: "https://video.dmm.co.jp/av/content/?id=hmn00211",
+  vlv02: "https://video.dmm.co.jp/av/content/?id=dldss00485",
+  vlv03: "https://video.dmm.co.jp/av/content/?id=gvh00612"
+};
+
 function streamUrl(svcKey, film){
+  // 直リンクが定義されていればそれを優先
+  if(directLinks[film.id]) return directLinks[film.id];
+  // フォールバック：検索URL
   const svc = services[svcKey]; if(!svc) return "#";
   return svc.base + encodeURIComponent(film.code);
 }
