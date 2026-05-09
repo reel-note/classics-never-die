@@ -536,7 +536,7 @@
   .tag.accent{background:var(--gold);color:var(--paper);border-color:var(--gold);}
 
   /* ============ STREAMING SERVICES ============ */
-  .svc-fanza{--svc:#FF8800;--svc-fg:#fff;}
+  .svc-fanza{--svc:#FF2E8E;--svc-fg:#fff;}
   .svc-dmm{--svc:#FF1F4F;--svc-fg:#fff;}
   .svc-duga{--svc:#0066CC;--svc-fg:#fff;}
   .svc-mgs{--svc:#000;--svc-fg:#FFD700;}
@@ -560,16 +560,21 @@
   .stream-chip:hover{transform:translateY(-2px);box-shadow:2px 2px 0 var(--velvet);}
 
   .stream-btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:9px 14px 8px;
+    display:inline-flex;align-items:center;justify-content:center;gap:12px;
+    padding:18px 32px 16px;
+    min-width:280px;
     background:var(--svc);color:var(--svc-fg);
-    border:1.5px solid var(--ink);
-    font-family:"Anton",sans-serif;font-size:12px;letter-spacing:.06em;
+    border:2px solid var(--ink);
+    font-family:"Anton",sans-serif;font-size:18px;letter-spacing:.1em;
     text-transform:uppercase;text-decoration:none;
+    box-shadow:4px 4px 0 var(--ink);
     transition: transform .18s ease, box-shadow .18s ease;
   }
-  .stream-btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--velvet);}
-  .stream-btn .arrow{font-size:10px;opacity:.7;margin-left:2px;}
+  .stream-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--velvet);}
+  .stream-btn .arrow{font-size:14px;opacity:.8;margin-left:4px;}
+  @media (min-width: 768px){
+    .stream-btn{min-width:340px;padding:20px 40px 18px;font-size:20px;}
+  }
 
   /* ============ FOOTER ============ */
   footer{
